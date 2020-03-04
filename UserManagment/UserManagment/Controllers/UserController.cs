@@ -43,8 +43,7 @@ namespace UserManagment.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string s = GetModelErrors();
-                return BadRequest(s);
+                return BadRequest(GetModelErrors());
             }
 
             try
