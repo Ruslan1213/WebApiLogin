@@ -10,7 +10,7 @@ namespace UserManagment.Provider
     {
         private IUserService _userService;
 
-        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) => context.Validated();
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) =>  context.Validated();            
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
@@ -18,7 +18,6 @@ namespace UserManagment.Provider
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             var form = await context.Request.ReadFormAsync();
             string roleId = form["roleId"];
-
             var user = _userService.GetByCredential(context.UserName, context.Password, int.Parse(roleId));
 
             if (user == null)

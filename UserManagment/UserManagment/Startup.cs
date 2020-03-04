@@ -12,7 +12,6 @@ namespace UserManagment
         public void Configuration(IAppBuilder app)
         {
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
             var myProvider = new OAuthAppProvider();
 
             OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions
@@ -22,11 +21,9 @@ namespace UserManagment
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = myProvider
             };
-
+            
             app.UseOAuthAuthorizationServer(options);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
         }

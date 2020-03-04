@@ -43,6 +43,7 @@ namespace UserManagment.Controllers
         {
             if (!ModelState.IsValid)
             {
+                string s = GetModelErrors();
                 return BadRequest(GetModelErrors());
             }
 
@@ -85,6 +86,18 @@ namespace UserManagment.Controllers
             return _roleService.GetAll();
         }
 
+        [HttpPost]
+        [Route("api/login")]
+        public IHttpActionResult GoogleLogin([FromBody]RegisterViewModel registerView)
+        {
+            if (!_userService.IsExist(x => x.Name == registerView.Name))
+            {
+                return Register(registerView);
+            }
+
+            return Ok();
+        }
+
         private IEnumerable<UserViewModel> GetUsers(IEnumerable<User> users)
         {
             return users.Select(x => _mapper.Map<UserViewModel>(x));
@@ -109,5 +122,7 @@ namespace UserManagment.Controllers
                 .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage));
         }
+
+
     }
 }
