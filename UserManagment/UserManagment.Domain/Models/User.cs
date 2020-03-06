@@ -1,4 +1,6 @@
-﻿namespace UserManagment.Domain.Models
+﻿using System.Collections.Generic;
+
+namespace UserManagment.Domain.Models
 {
     public class User
     {
@@ -13,5 +15,7 @@
         public int RoleId { get; set; }
 
         public Role Role { get; set; }
+
+        public ICollection<Job> Jobs { get; set; }
     }
 }

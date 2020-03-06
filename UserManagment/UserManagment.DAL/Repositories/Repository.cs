@@ -25,12 +25,12 @@ namespace UserManagment.DAL.Repositories
             _dbSet.Remove(entity);
         }
 
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> filter)
+        public virtual IEnumerable<T> Filter(Expression<Func<T, bool>> filter)
         {
             return _dbSet.Where(filter);
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return _dbSet.Find(id); ;
         }

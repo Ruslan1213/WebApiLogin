@@ -6,5 +6,7 @@ namespace UserManagment.Domain.Interfaces.Services
     public interface IRigtsResolver
     {
         IEnumerable<User> GetUsersByRole(string userName);
+
+        IEnumerable<Job> GetJobsByRole(string userName);
     }
 }

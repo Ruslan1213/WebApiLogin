@@ -5,8 +5,39 @@ let log = document.getElementById('login');
 let logout = document.getElementById('logout');
 let register = document.getElementById('register');
 let getUser = document.getElementById('getUser');
+let crudTask = document.getElementById('getUsersTask');
 
 hiddenEllements();
+
+crudTask.addEventListener('click', function () {
+    content.innerHTML = "";
+    hiddenEllements();
+    fetch('/Home/TasksList/',
+        {
+            method: 'GET',
+            headers: {
+                "Accept": "Home/TasksList",
+                "Authorization": "Bearer " + sessionStorage.getItem("accessToken")
+            }
+        }
+    )
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(data, 'text/html');
+            content.innerHTML = doc.getElementById("content").innerHTML;
+
+            let scr = document.createElement("script");
+            scr.setAttribute("src", "/Scripts/crudTask.js");
+            document.innerHTML = "";
+            document.getElementById('scripts').appendChild(scr);
+            hiddenEllements();
+        });
+
+
+});
 
 index.addEventListener('click', function () {
     content.innerHTML = "";
@@ -96,7 +127,6 @@ getUser.addEventListener('click', async function () {
     });
     if (response.ok === true) {
         const data = await response.json();
-        console.log(data);
         for (let i = 0; i < data.length; i++) {
 
             content.innerHTML += "<hr/><p><h3> Name: " + data[i].Name + ", Mail: " + data[i].Email + "</h3></p>";
@@ -113,8 +143,10 @@ function hiddenEllements() {
         logout.style.display = "none";
         log.style.display = "inline";
         register.style.display = "inline";
+        crudTask.style.display = "none";
     }
     else {
+        crudTask.style.display = "inline";
         log.style.display = "none";
         register.style.display = "none";
         getUser.style.display = "inline";

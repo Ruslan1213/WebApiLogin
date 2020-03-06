@@ -3,6 +3,9 @@ using System.Data.Entity;
 using UserManagment.DAL.Contexts;
 using UserManagment.Domain.Interfaces.Repositories;
 using UserManagment.Domain.Models;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
 
 namespace UserManagment.DAL.Repositories
 {
@@ -30,6 +33,11 @@ namespace UserManagment.DAL.Repositories
                 .Users
                 .Include(x => x.Role)
                 .FirstOrDefault(x => x.Name == name);
+        }
+
+        public override IEnumerable<User> Filter(Expression<Func<User, bool>> filter)
+        {
+            return _context.Users.Where(filter).Include(x => x.Jobs);
         }
     }
 }

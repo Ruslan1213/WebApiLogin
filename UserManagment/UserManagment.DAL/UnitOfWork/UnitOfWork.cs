@@ -11,16 +11,20 @@ namespace UserManagment.DAL.UnitOfWork
         public UnitOfWork(
             UserStoryContext context,
             IUserRepository userRepository,
-            IRoleRepository roleRepository)
+            IRoleRepository roleRepository,
+            IJobRepository jobRepository)
         {
             _context = context;
             UserRepository = userRepository;
             RoleRepository = roleRepository;
+            JobRepository = jobRepository;
         }
 
         public IUserRepository UserRepository { get; }
 
         public IRoleRepository RoleRepository { get; }
+
+        public IJobRepository JobRepository { get; }
 
         public void Commit()
         {

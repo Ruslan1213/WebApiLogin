@@ -12,6 +12,11 @@ namespace UserManagment.Configuration
             CreateMap<User, UserViewModel>().ReverseMap();
             CreateMap<User, LoginViewModel>().ReverseMap();
             CreateMap<RegisterViewModel, LoginViewModel>().ReverseMap();
+            CreateMap<Job, JobViewModel>()
+                .ForMember(x => x.UserName, dest => dest.MapFrom(x => GetName(x.User))).ReverseMap();
+            CreateMap<UpdateJobModel, Job>().ForMember(x => x.Id, dest => dest.Ignore());
         }
+
+        private string GetName(User user) => user?.Name;
     }
 }

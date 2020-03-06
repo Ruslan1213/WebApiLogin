@@ -8,6 +8,8 @@ namespace UserManagment.Domain.Interfaces.UnitOfWork
 
         IRoleRepository RoleRepository { get; }
 
+        IJobRepository JobRepository { get; }
+
         void Commit();
     }
 }

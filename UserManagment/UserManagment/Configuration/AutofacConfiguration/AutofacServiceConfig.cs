@@ -34,7 +34,11 @@ namespace UserManagment.Configuration.AutofacConfiguration
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
 
-        public static IUserService GetUserService() => container.Resolve<IUserService>();
+        public static IUserService GetUserService()
+        {
+            var a = container.Resolve<IUserService>();
+            return a;
+        }
 
         private static void WebApiConfig(ContainerBuilder builder, HttpConfiguration config)
         {
@@ -49,8 +53,10 @@ namespace UserManagment.Configuration.AutofacConfiguration
             builder.RegisterType<UserStoryContext>().InstancePerLifetimeScope();
             builder.RegisterType<Repository<User>>().As<IRepository<User>>().InstancePerLifetimeScope();
             builder.RegisterType<Repository<Role>>().As<IRepository<Role>>().InstancePerLifetimeScope();
+            builder.RegisterType<Repository<Job>>().As<IRepository<Job>>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
             builder.RegisterType<RoleRepository>().As<IRoleRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<JobRepository>().As<IJobRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
         }
 
@@ -58,8 +64,9 @@ namespace UserManagment.Configuration.AutofacConfiguration
         {
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
+            builder.RegisterType<JobService>().As<IJobService>().InstancePerLifetimeScope();
         }
-        
+
         private static void AutoMapperConfig(ContainerBuilder builder)
         {
             builder.Register(c => new MapperConfiguration(cfg =>

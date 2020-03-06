@@ -3,11 +3,11 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Web.Http;
 using UserManagment.Domain.Enums;
 using UserManagment.Domain.Interfaces.Services;
 using UserManagment.Domain.Models;
+using UserManagment.Extensions;
 using UserManagment.Models;
 
 namespace UserManagment.Controllers
@@ -43,8 +43,7 @@ namespace UserManagment.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string s = GetModelErrors();
-                return BadRequest(GetModelErrors());
+                return BadRequest(this.GetModelErrors());
             }
 
             try
@@ -65,7 +64,7 @@ namespace UserManagment.Controllers
         [Route("api/users")]
         public IHttpActionResult GetForAuthenticate()
         {
-            var role = GetRole();
+            var role = this.GetRole();
 
             if (role == null)
             {
@@ -78,7 +77,7 @@ namespace UserManagment.Controllers
 
             return Ok(GetUsers(users));
         }
-
+        
         [HttpGet]
         [Route("api/roles")]
         public IEnumerable<Role> GetRoles()
@@ -102,27 +101,5 @@ namespace UserManagment.Controllers
         {
             return users.Select(x => _mapper.Map<UserViewModel>(x));
         }
-
-        private string GetRole()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-
-            return identity
-                .Claims
-                .Where(c => c.Type == ClaimTypes.Role)
-                .First()
-                .Value;
-        }
-
-        private string GetModelErrors()
-        {
-            return string
-                .Join("; ", ModelState
-                .Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-        }
-
-
     }
 }

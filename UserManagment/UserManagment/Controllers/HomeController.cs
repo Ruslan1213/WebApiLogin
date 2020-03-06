@@ -9,5 +9,8 @@ namespace UserManagment.Controllers
         public ActionResult Main() => View();
 
         public ActionResult Login() => View();
+
+        [Authorize]
+        public ActionResult TasksList() => View("Task/TasksList");
     }
 }
