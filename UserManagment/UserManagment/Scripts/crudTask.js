@@ -82,6 +82,7 @@ async function Click(target) {
 
 
 document.getElementById('createJob').addEventListener('click', async function () {
+    document.getElementById("formCreate").reset();
     const response = await fetch("/api/users", {
         method: "GET",
         headers: {
@@ -123,7 +124,10 @@ document.getElementById('createFromForm').addEventListener('click', function () 
                 "Authorization": "Bearer " + useraccesstoken
             },
             error: function (response) {
-                alert(response.responseJSON.Message);
+                if (response.responseJSON) {
+                    alert(response.responseJSON.Message);
+                }
+                getTasks();
             }
         });
 

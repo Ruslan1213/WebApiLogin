@@ -12,7 +12,7 @@ namespace UserManagment
     {
         protected void Application_Start()
         {
-            AutofacServiceConfig.SetConfiguration();
+            new AutofacServiceConfig().SetConfiguration();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

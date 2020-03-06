@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
-using UserManagment.Configuration.AutofacConfiguration;
 using UserManagment.Domain.Interfaces.Services;
 
 namespace UserManagment.Provider
@@ -10,11 +10,11 @@ namespace UserManagment.Provider
     {
         private IUserService _userService;
 
-        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) =>  context.Validated();            
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) => context.Validated();
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            _userService = AutofacServiceConfig.GetUserService();
+            _userService = (IUserService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUserService));
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             var form = await context.Request.ReadFormAsync();
             string roleId = form["roleId"];

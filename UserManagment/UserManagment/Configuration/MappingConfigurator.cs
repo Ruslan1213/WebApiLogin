@@ -15,6 +15,7 @@ namespace UserManagment.Configuration
             CreateMap<Job, JobViewModel>()
                 .ForMember(x => x.UserName, dest => dest.MapFrom(x => GetName(x.User))).ReverseMap();
             CreateMap<UpdateJobModel, Job>().ForMember(x => x.Id, dest => dest.Ignore());
+            CreateMap<Job, CreateJobViewModel>().ReverseMap();
         }
 
         private string GetName(User user) => user?.Name;

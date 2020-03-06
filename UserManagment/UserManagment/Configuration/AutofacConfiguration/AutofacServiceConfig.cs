@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Web.Http;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
@@ -19,9 +20,7 @@ namespace UserManagment.Configuration.AutofacConfiguration
 {
     public class AutofacServiceConfig
     {
-        private static IContainer container;
-
-        public static void SetConfiguration()
+        public void SetConfiguration()
         {
             var builder = new ContainerBuilder();
             var config = GlobalConfiguration.Configuration;
@@ -30,17 +29,14 @@ namespace UserManagment.Configuration.AutofacConfiguration
             BllConfig(builder);
             AutoMapperConfig(builder);
             ServiceConfig(builder);
-            container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);             
+            GlobalConfiguration.Configuration.DependencyResolver = config.DependencyResolver;
+            var mvcResolver = new AutofacDependencyResolver(container);
+            DependencyResolver.SetResolver(mvcResolver);
         }
 
-        public static IUserService GetUserService()
-        {
-            var a = container.Resolve<IUserService>();
-            return a;
-        }
-
-        private static void WebApiConfig(ContainerBuilder builder, HttpConfiguration config)
+        private void WebApiConfig(ContainerBuilder builder, HttpConfiguration config)
         {
             builder.RegisterControllers(typeof(WebApiApplication).Assembly);
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
@@ -48,7 +44,7 @@ namespace UserManagment.Configuration.AutofacConfiguration
             builder.RegisterWebApiModelBinderProvider();
         }
 
-        private static void DalConfig(ContainerBuilder builder)
+        private void DalConfig(ContainerBuilder builder)
         {
             builder.RegisterType<UserStoryContext>().InstancePerLifetimeScope();
             builder.RegisterType<Repository<User>>().As<IRepository<User>>().InstancePerLifetimeScope();
@@ -60,14 +56,14 @@ namespace UserManagment.Configuration.AutofacConfiguration
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
         }
 
-        private static void BllConfig(ContainerBuilder builder)
+        private void BllConfig(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
             builder.RegisterType<JobService>().As<IJobService>().InstancePerLifetimeScope();
         }
 
-        private static void AutoMapperConfig(ContainerBuilder builder)
+        private void AutoMapperConfig(ContainerBuilder builder)
         {
             builder.Register(c => new MapperConfiguration(cfg =>
             {
@@ -77,12 +73,11 @@ namespace UserManagment.Configuration.AutofacConfiguration
             builder.Register(c => c.Resolve<MapperConfiguration>().CreateMapper(c.Resolve)).As<IMapper>().InstancePerLifetimeScope();
         }
 
-        private static void ServiceConfig(ContainerBuilder builder)
+        private void ServiceConfig(ContainerBuilder builder)
         {
             builder.RegisterType<UserRightsResolver>().Keyed<IRigtsResolver>(Roles.User);
             builder.RegisterType<ManagerRightsResolver>().Keyed<IRigtsResolver>(Roles.Manager);
             builder.RegisterType<AdminRightsResolver>().Keyed<IRigtsResolver>(Roles.Admin);
         }
-
     }
 }
