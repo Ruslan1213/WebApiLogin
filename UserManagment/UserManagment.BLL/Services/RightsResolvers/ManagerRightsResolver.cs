@@ -10,12 +10,9 @@ namespace UserManagment.BLL.Services.RightsResolvers
     {
         private readonly IUserService _userService;
 
-        private readonly IJobService _jobService;
-
-        public ManagerRightsResolver(IUserService userService, IJobService jobService)
+        public ManagerRightsResolver(IUserService userService)
         {
             _userService = userService;
-            _jobService = jobService;
         }
 
         public IEnumerable<User> GetUsersByRole(string userName)

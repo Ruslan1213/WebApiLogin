@@ -6,6 +6,7 @@ namespace UserManagment.DAL.Configuration
 {
     internal class UserStoryConfig
     {
+        private const int length = 100;
         public void ConfigureDb(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -20,12 +21,19 @@ namespace UserManagment.DAL.Configuration
 
             modelBuilder.Entity<User>().Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<User>().Property(p => p.Email).HasMaxLength(length);
+            modelBuilder.Entity<User>().Property(p => p.Name).HasMaxLength(length);
+            modelBuilder.Entity<User>().Property(p => p.Password).HasMaxLength(length * 5);
 
             modelBuilder.Entity<Job>().Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Job>().Property(p => p.Name).HasMaxLength(length);
+            modelBuilder.Entity<Job>().Property(p => p.Status).HasMaxLength(length); 
+            modelBuilder.Entity<Job>().Property(p => p.Description).HasMaxLength(length);
 
             modelBuilder.Entity<Role>().Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Role>().Property(p => p.Name).HasMaxLength(length);
 
             modelBuilder.Entity<User>().HasKey(x => x.Id);
             modelBuilder.Entity<Job>().HasKey(x => x.Id);
