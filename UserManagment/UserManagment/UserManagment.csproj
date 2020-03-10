@@ -289,7 +289,7 @@
       <Name>UserManagment.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserManagment.DAL\UserManagment.DAL.csproj">
-      <Project>{ef0ace4d-4038-492a-bc38-91d9e77d5493}</Project>
+      <Project>{aff8e0f7-fe36-4c92-a132-994b507f91c9}</Project>
       <Name>UserManagment.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserManagment.Domain\UserManagment.Domain.csproj">

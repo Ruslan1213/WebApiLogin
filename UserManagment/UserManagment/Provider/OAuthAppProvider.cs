@@ -10,7 +10,7 @@ namespace UserManagment.Provider
     {
         private IUserService _userService;
 
-        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) => context.Validated();
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) => await Task.FromResult(context.Validated());
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
