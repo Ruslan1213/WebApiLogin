@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserManagment.Domain\UserManagment.Domain.csproj">
-      <Project>{31786bf4-0c77-4fdd-9a5d-2707618ec63d}</Project>
+      <Project>{6ae03928-148e-4b10-b3a5-7a7339a2126a}</Project>
       <Name>UserManagment.Domain</Name>
     </ProjectReference>
   </ItemGroup>

@@ -53,6 +53,11 @@ namespace UserManagment.BLL.Services
 
             var user = _userRepository.GetByCredential(name, password.GetHashString());
 
+            if (user == null)
+            {
+                return null;
+            }
+
             if (user.RoleId != roleId)
             {
                 return null;
